@@ -1,0 +1,15 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/MLProject/mlruns/0/79434e259e684ed29e7afe59f3953a8a/artifacts
+end_time: 1784776644136
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 79434e259e684ed29e7afe59f3953a8a
+run_name: lyrical-goose-233
+run_uuid: 79434e259e684ed29e7afe59f3953a8a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1784776636768
+status: 3
+tags: []
+user_id: runner
