@@ -67,10 +67,14 @@ jobs:
 
       - name: Build Docker image with MLflow
         if: ${{ env.DOCKERHUB_USERNAME != '' }}
+        # --env-manager local: pakai base image python:3.12-slim (versi Python model),
+        # menghindari base image virtualenv (python3.9 + get-pip gagal) maupun
+        # conda (miniconda python3.14 + pyarrow gagal build). Terverifikasi lokal.
         run: |
           mlflow models build-docker \
             -m "runs:/${{ steps.runid.outputs.run_id }}/model" \
-            -n "${{ secrets.DOCKERHUB_USERNAME }}/telco-churn-model"
+            -n "${{ secrets.DOCKERHUB_USERNAME }}/telco-churn-model" \
+            --env-manager local
 
       - name: Push Docker image to Docker Hub
         if: ${{ env.DOCKERHUB_USERNAME != '' }}
