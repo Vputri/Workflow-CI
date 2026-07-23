@@ -18,6 +18,9 @@ env:
 jobs:
   retrain:
     runs-on: ubuntu-latest
+    # Ekspos secret Docker Hub sebagai env agar bisa dipakai pada kondisi `if`.
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
     defaults:
       run:
         working-directory: MLProject
@@ -65,18 +68,23 @@ jobs:
           fi
 
       # --- Advanced: build Docker image & push ke Docker Hub ---
+      # Langkah ini otomatis dilewati bila secret DOCKERHUB_USERNAME belum diisi,
+      # sehingga level Basic/Skilled tetap menghasilkan workflow yang hijau.
       - name: Log in to Docker Hub
+        if: ${{ env.DOCKERHUB_USERNAME != '' }}
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker image with MLflow
+        if: ${{ env.DOCKERHUB_USERNAME != '' }}
         run: |
           mlflow models build-docker \
             -m "runs:/${{ steps.runid.outputs.run_id }}/model" \
             -n "${{ secrets.DOCKERHUB_USERNAME }}/telco-churn-model"
 
       - name: Push Docker image to Docker Hub
+        if: ${{ env.DOCKERHUB_USERNAME != '' }}
         run: |
           docker push "${{ secrets.DOCKERHUB_USERNAME }}/telco-churn-model"
