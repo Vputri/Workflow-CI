@@ -1,0 +1,19 @@
+Tautan Docker Hub Image (Advanced — Kriteria 3)
+===============================================
+
+Image hasil `mlflow models build-docker` yang di-push oleh CI:
+https://hub.docker.com/r/<username-dockerhub>/telco-churn-model
+
+Menjalankan image secara lokal (serving model, port 5001 -> 8080):
+    docker pull <username-dockerhub>/telco-churn-model:latest
+    docker run -p 5001:8080 <username-dockerhub>/telco-churn-model:latest
+
+Endpoint invocations:
+    POST http://127.0.0.1:5001/invocations
+
+GitHub Secrets yang harus diset pada repository Workflow-CI:
+    DOCKERHUB_USERNAME = <username-dockerhub>
+    DOCKERHUB_TOKEN    = <access-token-dockerhub>
+
+Catatan: ganti <username-dockerhub> dengan milik akun Anda.
+Token dibuat di: Docker Hub -> Account Settings -> Security -> New Access Token.
